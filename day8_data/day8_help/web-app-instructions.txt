@@ -1,0 +1,22 @@
+Tips/Instructions  for starting web app development
+1. Change perspective to Java EE
+2. Window--preferences -- Installed JREs
+Confirm the location -- JDK1.8 (& NOT JRE folder)
+3. Add Tomcat server to the workspace.
+4. Run server --confirm its working.
+5. Create dyn web project (for Servlets/JSP/JB)
+6. Open web.xml -- welcome page index.jsp
+7. Develop any web app always in bottoms up manners
+8. Add in <utils> package --DBUtils or HibernateUtils , as per YOUR OWN DB settings (eiher from DBUtils.java or from hibernate.cfg.xml)
+9. Create POJO as per DB table (<pojos> pkg)
+10. Create DAO i/f & imple class.
+11. Create a servlet to manage DAO layer or JavaBean & finally JSP using standard / JSTL actions.
+12. Test web app.
+
+--------------------------
+Troubleshooting tips
+1. stop server
+2. un deploy all web apps from server (add/remove)
+3. R click on server ---Clean
+4. R click on server --Clean tomcat work dir.
+5. From Project tab -- clean project.

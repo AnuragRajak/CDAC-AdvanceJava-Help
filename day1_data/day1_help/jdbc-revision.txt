@@ -1,0 +1,84 @@
+Revise JDBC
+Why JDBC
+platform indepenece + DB vendor inde.
+What is it ?
+API (java.sql) --to supply db conn, query DB , CRUD support
+How it ensure DB vendor (partial) independence ?
+1. JDBC driver ---prog --translator
+2. java.sql -- i/f --specs(what) -- Oracle / Sun(Java SE)
+eg : Connection,ST/PST/CST,RST,Clob,Blob...
+
+Imple left to DB vendors
+
+How ? -- JAR file
+Who -- DB vendor / 3rd party vendors
+eg : mysql connector
+eg : com.mysql.cj.jdbc.Driver 
+
+
+4 types of JDBC driver
+Type IV pure Java JDBC driver
+JA --- JDBC API ---JDBC Driver --DB
+Dis adv -- vendor specific protocol
+eg : jdbc:mysql://remIP:port_no/db_name
+
+
+
+Steps
+1. add JDBC jar in classpath
+2. load JDBC drvr
+Class.forName(drvrName)
+3. get DB fixed connection 
+Connection cn=DM.getConnection(url,nm,pass) throws SE
+4. Statement  -- createStatement()
+   PST ---pre parsed n pre compiled stsmt obj
+PST pst=cn.prepareStatement(sql);
+CST -- exec of stored proc/funs
+
+5. Exec methods
+executeQuery --RST ret queries --select
+with sql -- Stmt
+w/o sql --PST/CST
+executeUpdate -- DDL/DML
+execute -- exec of stored proc/funs n un known results
+
+6. RST -- i/f
+def type RST --TYPE_FORWARD_ONLY
+methods
+public boolean next()
+public Type getType(int colNo/String colName) 
+type -- generic SQL type / JDBC type
+
+Layers in a typical DB application
+Tester(servlet/JB....)---DAO
+state --cn / stmts
+constr --load / get cn / prepare stmts
+clean up --close stmts / cn
+CRUD methods
+
+POJO / DTO / Entity 
+ORM
+Obj    vs    RDBMS
+POJO class --- Table
+props (non static / non transient d.m) -- cols
+POJO / POJO cls instance -- row
+
+DB layer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Enter J2EE

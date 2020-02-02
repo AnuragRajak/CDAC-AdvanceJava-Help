@@ -1,0 +1,23 @@
+1. Import day11_lab (JSP hibernate based voting assignment ) in your workspace & trace the flow.
+
+
+2. Create Java SE based spring application to understand spring bean life cycle.
+Steps
+Steps for spring nature to Java SE (core java application)
+Important :  Extract spring api-docs.
+DON'T change the workspace.
+
+0. Change perspective to Java
+1. Create Java project
+2. Create User lib --containing spring/hibenrate/jdbc drvr/REST.... JARs.(from day10_help\spring-help\spring-hibernate-rest-jars)
+3. Add user lib in build path.(R click --build path --confgure build path)
+3.5 Copy dependent & dependency beans from day10_help/spring-help/rdy code.
+4. Create new src folder --<resources> & create spring bean config xml file.
+5. Add namespace <beans>
+6. Configure dependency n dependent beans.
+7. Create a tester to launch SC in core java & test the application.
+
+(Refer to day11 projects for help)
+
+Must go through n revise all of today's eclipse projects .
+

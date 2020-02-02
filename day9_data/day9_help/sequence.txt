@@ -1,0 +1,82 @@
+Today's topics
+Complete CRUD with Session API
+Advanced Hibernate 
+Entity-Entity relationships
+one-one
+one-many
+many-one
+many-many
+
+Association between Entities n embeddables(weak entities)
+
+Integration with web app
+----------------------------------
+1. Delete user details by user id
+i/p --user id (get)
+o/p messgae
+
+2. Delete all user details by reg date (if reg date < dt) (jpql)
+
+Entity Relationships
+one-one
+one-many
+many-one
+many-many
+
+
+eg : one to many bi-dir association between entities
+Course  1<----->* Student
+uni dir asso eg for Course n Student
+--From Course , u can access Student dtls BUT not vice versa.
+
+bi dir asso eg for Course n Student
+--From Course , u can access Student dtls & vice versa.
+
+Course -- (courses) -- parent side 
+Student --(students) --child side
+How to represent it in DB ?
+Typically using FK constraint.
+owning side -- FK column appears -- (students) 
+non owning(inverse side) -- courses
+
+Course POJO --courseId(Integer:PK), name(unq),strtDate,endDate,fees,capa
++ List<Student> students
+
+Student POJO -- studentId(Integer:PK),name +
+Course selectedCourse;
+
+Annotation to use on one side
+eg : @OneToMany(mappedBy="selectedCourse",cascade=CascadeType.ALL)
+private List<Student> students=new ArrayList<>();
+
+Meaning : 
+ If the relationship is bidirectional, the mappedBy element must be used to specify the relationship field or property of the entity that is the owner of the relationship.
+Value of the mappedBy = name of the asso property as it appears in the owning side.
+If u don't specify -- hibernate doesn't understand which is the owning side --so creates additional link table having 2 FKs.
+
+cascade --to indicate the cascading from parent --->child 
+CascadeType --enum -- ALL,PERSIST,REMOVE,MERGE
+
+
+orphanRemoval
+(Optional) Whether to apply the remove operation to entities that have been removed from the relationship and to cascade the remove operation to those entities.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

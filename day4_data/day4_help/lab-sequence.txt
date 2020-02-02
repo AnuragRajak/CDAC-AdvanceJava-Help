@@ -1,0 +1,19 @@
+
+1. Import day 4.1 project in your workspace & test config vs context
+
+1.5 IMport day4.3 project in your workspace & test server pull.
+
+2. Complete assignment for Voter login &  Admin login.
+
+3. Add Show Cart page in the bookshop case study.
+Use RD's include scenario, to include CartContents page in CheckOut & ShowCart page(optional)
+------------------------------
+MUST Read H.W
+1. regarding servletconfig readme
+2. regarding servletcontext readme
+3. HttpSession internals & WC's heap pic.
+4. difference between config vs context
+5. difference between sendRedirect(clnt pull) vs forward (server pull)
+6. readme JSP till what we have covered.
+
+

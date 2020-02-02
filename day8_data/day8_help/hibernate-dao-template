@@ -1,0 +1,11 @@
+Session hs=getSf().getCurrentSession();
+		//tx
+		Transaction tx=hs.beginTransaction();
+		try {
+			
+			tx.commit();
+		} catch (HibernateException e) {
+			if(tx != null)
+				tx.rollback();
+			throw e;
+		}

@@ -1,0 +1,43 @@
+A key difference between a traditional MVC controller and the RESTful web service controller is the way that the HTTP response body is created. Rather than relying on a view technology to perform server-side rendering of the  data to HTML, typically a  RESTful web service controller simply populates and returns a java object. The object data will be written directly to the HTTP response as JSON/XML/Text
+
+To do this, the @ResponseBody annotation on the ret type of the request handling  method tells Spring MVC that it does not need to render the java object through a server-side view layer, but that instead the java object returned is the response body, and should be written out directly.
+
+The java object must be converted to JSON. Thanks to Springs HTTP message converter support, you dont need to do this conversion manually. Because Jackson Jar is on the classpath, SC can automatically  convert the java object  to JSON & vice versa (using 2 annotations @ReponseBody & @RequestBody)
+
+API --Starting point 
+o.s.http.converter.HttpMessageConverter<T>
+--Interface that specifies a converter that can convert from and to HTTP requests and responses.
+T --type of (resource) request/response body.
+
+Implementation classes
+1. o.s.http.converter.xml.
+Jaxb2RootElementHttpMessageConverter
+-- Implementation of HttpMessageConverter that can read and write XML (uses Java API for XML binding)
+
+2. o.s.http.converter.json.
+MappingJackson2HttpMessageConverter
+--Implementation of HttpMessageConverter that can read and write JSON using Jackson 2.x's ObjectMapper class API
+
+----------------
+Annotations 
+Good news is @RestController = @Controller(at the class level) + @ResponseBody added on ret types of all request handling methods
+@ResponseBody ---marshalling the response.
+marshalling (serialization) -- java object --> xml/JSON 
+Use case -- GET 
+
+@RequestBody annotation must be still added on a method argument of request handling method , for un marshalling(de serialization) though.
+Use case --PUT / POST
+
+@PathVariable --- handles URI path variables.
+eg : URL -- http://host:port/test_web/products/10
+Method of RESTController
+@GetMapping("/{pid}")
+public Product getDetails(@PathVariable int pid)
+{...}
+In the above URL , the path variable {pid} is mapped to an int . Therefore all of the URIs such as /products/1 or /products/10 will map to the same method in the controller.
+
+
+
+
+
+

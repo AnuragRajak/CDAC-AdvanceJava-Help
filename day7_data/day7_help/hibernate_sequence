@@ -1,0 +1,92 @@
+
+
+Hibernate
+What is Hibernate ?
+JPA & Hibernate 
+Why Hibernate
+Overview & Architecture.
+Development Blocks
+Implementation steps
+
+
+Steps in hibernate
+1. Change perspective to Java
+2. Create Java project
+3. Create user lib --containing hibernate JARs.
+(window---preferences --user lib --new --hib_lib 
+--add external jars.--apply n close)
+4. Add this user lib under build path.
+R click on project -- build path - --configure build path --add lib --user lib --apply
+5. Create <resources> as new src folder & copy hibernate.cfg.xml
+5.5 Copy utils package(HibernateUtils) under <src>
+--supplies singleton instance of SF
+5.6 Create main(..) based Tester to check bootstrapping of hib frmwork.
+-------------------
+Identify persistence requirement & create a POJO
+5.7 Create User POJO to represent a user in an application
+Data members
+ userId (PK) ,name,email,password,role,confirmPassword
+	 regAmount;
+	 LocalDate/Date regDate;
+	 UserType userType --enum
+	 byte[] image;
+6. Annotate it. (@Entity , @Id ....)
+7. Add <mapping class="POJO.class"/> in hibernate.cfg.xml
+8. Create DAO i/f & write its implementation class , as explained.
+Hib based DAO impl class
+1. no d.m , constr , cleanup
+2. Directly add CRUD methods.
+1. Get hib session from SF
+API of org.hibernate.SessionFactory
+public Session openSession() throws HibernateException
+OR
+public Session getCurrentSession() throws HibernateException
+2. Begin a Transaction
+API of Session
+public Transaction beginTransaction()throws HibernateException
+
+3. try {
+  perform CRUD using Session API
+  commit the tx.
+   } catch(HibernateException e)
+   {
+      roll back tx.
+      re throw the exc to caller
+   } finally {
+      close session --destroys L1 cache , pooled out  		db cn rets to the pool.
+   }
+
+
+9. Create main(..) based Tester & test the application.
+
+
+
+
+Objectives
+1. Bootstrapping hibernate
+2. Check auto table creation
+3. Insertion of a record.
+4. Retrive user details by PK
+i/p user id 
+o/p user dtls or null
+5. Retrieve all user details
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

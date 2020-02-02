@@ -1,0 +1,73 @@
+Today's topics
+Servlet Life cycle 
+load-on-startup
+CGI Vs Servlets 
+ServletConfig
+Executor Framework (used by WC to support concurrent handling of multiple client requests)
+Server Pull 
+HttpSession Internals
+Enter JSP
+-----------------------
+
+Apply 
+Page Navigation technique -- server pull
+eg : How to forward from /login --- /details page
+,in the SAME request
+eg : 
+RD rd=request.getRD("catgeory");
+rd.forward(request,response);
+
+client pull vs server pull (sendRedirect vs RD's forward)
+
+
+------------------
+
+Complete Servlet Life cycle (including thread pool)
+
+How to add servlet specific init params & how to access it ?
+
+How to add web app specific  params & how to access it ?
+javax.servlet.ServletContext -- i/f
+Represents entire web application.
+
+Who creates instance of servlet ctx ? when ? How many ?
+WC creates instance of ServletCtx, @ web app deployment time , 1 copy / web application.
+
+To add context params(scope=entire web app) , use xml tags
+<context-param>
+ <param-name>...</..>
+ <param-value>..</..>
+</context-param>
+
+How to access ?
+API of GenericServlet
+1.ServletContext getServletContext()
+2. ServletContext API
+String getInitParameter(String name)
+
+------------------
+
+
+CGI vs Servlets
+
+ServletConfig vs ServletContext
+
+HttpSession internals
+refer to --session internals & WC Heap pics.
+
+---------------------------
+Reading H.W ---
+1.differentiate between getSession() vs getSesssion(create) of HttpServletRequest.
+
+2.GenericServlet's overloaded init methods
+3.Creating RequestDispatcher using ServletRequest or ServletContext
+
+NOTE
+WC throws java.lang.IllegalStateException --if you invoke either resp.sendRedirect(clnt pull) or rd.forward(server pull) , after committing the response.
+-------------
+Enter JSP
+What is it?
+Why JSP 
+JSP life cycle.
+JSP tags (syntax)
+

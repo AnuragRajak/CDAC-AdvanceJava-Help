@@ -1,0 +1,83 @@
+Steps in angular - spring integration
+1. Create Spring RESTful -hibernate web app, deployed for CRUD.
+2. Create dyn web app.
+3. Add user lib in 2places (build path,dep assembly)
+4. Copy servlet,servlet-mapping , welcome-file-list tags in web.xml
+5. Copy spring-servlet.xml under <WEB-INF>
+& delete view-resolver bean tag.
+6. Copy database.properties,hibernate-persistence.xml,log4j.properties under <resources>
+7. Edit database.properties , as per your db.
+8. Create POJOs, DAO & Service(in case of extensive B.L) & RestController.
+9. Annotations for RestController.
+@RestController
+@RequestMapping("/employees") //make it resource oriented.
+
+10. Add @GetMapping, @PostMapping....
+for CRUD operations.
+11. Test it completely with Postman client.
+--------------------------------------
+12. Add @CrossOrigin on the RestController class , to enable  CORS(cross orgin resource sharing) headers.
+13. Deploy back end web app.
+-----------------------
+
+Steps for creating Spring Boot + Spring data application
+1. Create Spring starter project
+2. Choose 
+2.1 group id, artifact id , package name
+2.2 Deependencies
+Spring dev tool, Spring Data JPA , MYSQL driver , Spring web
+2.3 Edit version of spring --2.1.4
+
+3. After creating the project , edit application.properties (copy the contents from supplied template n edit it as per your DB config)
+
+4. For Simple testing , create a dummy RestController & test it with Postman client/browser.
+
+5. Create POJOs, DAO ,Service, & RestController
+
+6. Image handling in spring boot
+Specify this in fron end web app
+<form .... enctype="multipart/formdata">
+<input type="file" name="image">
+....
+</form>
+o.s.web.multipart.MultipartFile --represents the file uploaded on the back end server.
+BUT the contents uploaded are temporary --which have to be saved by server side dev either on folder or on DB , in a permanent manner.
+---------------------
+For angular
+1.extract ngApp zip.
+2.Navigate to <src>
+ Delete <app>
+3. Copy from day13_data , <app> under <src>
+4. Launch from ngApp
+ng serve --open
+----------------
+For Maven
+Copy repository.zip under your home dir.
+Extract here.
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

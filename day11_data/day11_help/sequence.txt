@@ -1,0 +1,16 @@
+Today's Topics
+1. Complete Voting case study (JSP--JB--Hibernate based DAO--Hibernate POJO--DB)
+
+2. Identify n Fix the problem
+
+3. Spring Core container & Dependency Injection
+
+4. Spring Bean life cycle
+
+5 Different Techniques of D.I
+
+6. Annotations
+
+7. MVC 
+
+8. Spring MVC

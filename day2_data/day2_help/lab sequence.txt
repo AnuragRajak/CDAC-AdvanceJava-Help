@@ -1,0 +1,23 @@
+Lab sequence
+
+0. Extract J2EE api docs & open index.html in your browser tab.
+
+0.5 Confirm if mysql connector exists under <tomcat>/lib ?
+
+1. If you are using the supplied (from yesterday's help) tomcat -- no such change is required.
+Copy context.xml from <j2ee-help\day1_help\config files> under IDE server project & also under <Tomcat-install>\conf 
+folder.
+(Without this cookies will not work properly)
+
+
+2. Please import day2.1 in your workspace & revise everything in top-down manner from index.html till DB
+(in max half an hour )
+
+
+3. Solve assignment
+
+
+
+
+
+

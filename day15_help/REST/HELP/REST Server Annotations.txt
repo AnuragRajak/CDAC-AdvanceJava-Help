@@ -1,0 +1,38 @@
+Annotations 
+1. @PathVariable --- handles URL templates. In the above code, the path variable {name} is mapped to a String object (@PathVariable("name") String name). Therefore all of the URI such as /books/xx or /books/yy will map to the methods in the controller.
+
+eg : URI  http://www.example.com/spring_mvc/users/123 
+Above contains the variable userId. Assigning the value "123" to the variable yields http://www.example.com/users/123
+
+How to acces URI  variable ?
+
+In Spring MVC you can use the @PathVariable annotation on a method argument to bind it to the value of a URI template variable:
+eg : URL --- http://host:port/web_app/users/10
+@GetMapping(value="/users/{userId}")
+public User findUser(@PathVariable int userId) {
+ User user = userService.findUser(userId);
+ return user;
+}
+The URI Template "/users/{userId}" specifies the variable name userId. When the controller handles this request, the value of userId is set to the value found in the appropriate part of the URI.
+
+
+
+2. The @ResponseBody annotation is used to marshall(serialize) the return value into the HTTP response body. Spring comes with converters that convert the Java object into a format understandable for a client(text/xml/json) 
+where -- on the ret type of request handling methods
+eg :
+@Controller 
+@RequestMapping("/employee")
+public class EmpController
+{
+   @GetMapping(....)
+   public @ResponseBody Emp fetchEmpDetails(....int empId)
+   {
+      //get emp dtls from DB
+      return e;
+   }
+}
+OR
+@RestController  = @Controller (at the cls level) + @ResponseBody auto added on  the ret type of request handling methods
+
+
+3.The @RequestBody annotation, instead, unmarshalls the HTTP request body into a Java object injected in the method.

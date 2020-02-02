@@ -1,0 +1,29 @@
+ StudentServiceImpl  @Service @Transactional
+
+@Autowired
+private IStudentDaoDAO testDAO;
+
+@Autowired
+private IGradingService service;
+
+@Override
+@Transactional(propagation=Propagation.REQUIRED)
+public void testRequired(Student s) {
+  testDAO.insertStudent(s);
+  try{
+    service.testRequired();
+  } catch(RuntimeException e){
+    // handle exception
+  }
+}
+
+
+
+GradingServiceImpl -- @Service @Transactional
+
+@Override
+@Transactional(propagation=Propagation.REQUIRED)
+public void testRequired() {
+  throw new RuntimeException("Rollback this transaction!");
+}
+

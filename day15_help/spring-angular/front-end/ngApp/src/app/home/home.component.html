@@ -1,0 +1,34 @@
+
+
+<div class="container">
+
+<div class="table-fixed" style="width: 50%"> 
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Image</th>
+        <th>Actions</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of emps">
+        <td>{{emp.no}}</td>
+        <td>{{emp.name}}</td>
+        <td>{{emp.address}}</td>
+        <td><img style="height: 90px;width: 100%" src="data:image/gif;base64,{{emp.image}}" alt=""><br>
+        </td>
+        <td>
+        <button type="button" (click)="delete(emp.no)"class="btn btn-danger">Delete</button>
+        </td>
+        <td>
+            <button type="button" routerLink="/update/{{emp.no}}" class="btn btn-warning">Update</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>

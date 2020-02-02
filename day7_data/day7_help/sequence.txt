@@ -1,0 +1,79 @@
+Today's Topics
+Complete JSP--JB--DAO (JDBC based) --POJO ---DB Layers
+More JSTL tags
+Web app listeners
+JSP directives / Actions
+URL writing
+Hibernate
+
+------------------
+JSTl Tags
+1. <c:if>
+eg : <c:if test="${sessionScope.voter.details.status eq 'not voted'}">
+ <jsp:setProperty property="*" name="voter"/>
+ call B.L method/s of JB
+ Voted successfully!!!!
+</c:if>
+discard session 
+<%
+   session.invalidate();
+%>
+OR
+${pageContext.session.invalidate()}
+OR custom tags
+
+2. <c:redirect> -- client pull II
+eg : In one.jsp
+<c:redirect url="two.jsp"/>
+WC -- response.sendRedirect("two.jsp");
++ URL rewriting 
+
+eg : <c:redirect url="${sessionScope.cust.validateCustomer()}.jsp" />
+WC ---response.sendRedirect(session.getAttribute("cust").validateCustomer().concat(".jsp"));
+
+
+1. Spot the problem in server pull (forward view)
+
+Solution
+
+How ?
+2. Complete book shop case study
+
+3. Question ? 
+Where will close DB connection from ?
+Is your web app DB independent ?
+
+4. Solution
+refer to DB setup help.
+---------------
+
+Web application listener (refer to readme)
+Event listener in web app programming
+3 types -- i/f 
+1.Servlet context listener
+--contextInitilaized , contextDestroyed
+Auto called by WC -- at the time of starting web app / stopping the same.
+How to deploy a web listener?
+1. Via annotation
+@WebListener --class level annotation
+
+OR
+2. Via XML tags
+web.xml
+<listener>
+ <listener-class>F.Q listener cls name</..>
+</listener>
+
+
+2. Http Session Listener
+3. Servlet Request listener.
+
+Need --Create single instance of  DB cn & use it thro' the application.
+----------------------
+
+JSP directives
+page & include
+JSP Action
+<jsp:include>
+-------------------------
+Enter Hibernate

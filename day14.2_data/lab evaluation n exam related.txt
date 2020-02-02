@@ -1,0 +1,29 @@
+J2EE lab evaluation (21st Nov)
+1 question will be given , to be solved using spring MVC hibernate(as a practice for J2EE lab exam)
+Will involve one-many/one to one / association between entity n embeddable
+Will share 2 questions today. Prepare well.
+
+Core Java Lab exam
+No threads
+Collections/I/O /Sockets / JDBC
+
+J2EE lab exam
+Spring MVC Hibernate
+Will involve one-many/one to one / association between entity n embeddable
+No RESTful webservices
+
+
+No javadocs will be provided as exam help separately . BUT you are allowed to refer to the existing ones.
+
+
+
+
+
+
+
+
+
+
+
+
+

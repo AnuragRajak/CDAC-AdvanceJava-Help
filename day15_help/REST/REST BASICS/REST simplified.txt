@@ -1,0 +1,44 @@
+What is REST ?
+
+REST stands for REpresentational State Transfer. 
+
+REST is web standards based architecture and uses HTTP Protocol for data communication. 
+
+It revolves around resource where every component is a resource and a resource is accessed by a common interface using HTTP standard methods. 
+
+REST was first introduced by Roy Fielding in 2000.
+
+In REST architecture, a REST Server simply provides access to resources and REST client accesses and presents the resources. 
+
+Here each resource is identified by URIs
+
+REST uses various representations to represent a resource like text, JSON and XML. Most popular light weight data exchange format  used in web services = JSON
+
+HTTP Methods
+Following well known HTTP methods are commonly used in REST based architecture.
+
+GET - Provides a read only access to a resource.
+
+POST - Used to create a new resource.
+
+DELETE - Used to remove a resource.
+
+PUT  - Used to update a existing resource or create a new resource.
+
+
+
+RESTFul Web Services
+
+A web service is a collection of open protocols and standards used for exchanging data between applications or systems. 
+
+Platform & technology independent solution.
+
+Software applications written in various programming languages and running on various platforms can use web services to exchange data over computer networks like the Internet in a manner similar to inter-process communication on a single computer. 
+
+This interoperability (e.g., between Java and Python, or Windows and Linux applications or java & .net ) is due to the use of open standards.
+
+
+Web services based on REST Architecture are known as RESTful web services. 
+
+These web services use HTTP methods to implement the concept of REST architecture. A RESTful web service usually defines a URI, Uniform Resource Identifier a service, provides resource representation such as JSON and set of HTTP Methods.
+

@@ -1,0 +1,66 @@
+Day 1
+1. Create a dynamic web application for 
+1.1 index.html
+Welcome mesg
+1st Link --To invoke servlet deployed via annotation
+
+2nd Link --To invoke servlet deployed via xml tags
+
+3rd link -- Reading different types of i/ps
+(Copy input.html from today's help under WebContent)
+Write a TestInputServlet , to read request parameters sent from the client.
+ 
+
+2. Use my_sql_cmds.txt from today's help.
+Copy my_customers & dac_books table in your DB
+2.1 Create Customer POJO
+2.2 Copy DBUtils
+2.3 Create DAO i/f (ICustomerDao)
+public Customer signIn(String email,String pass) throws Exception
+
+public String signUp(Customer c) throws Exception
+
+3. Write DAO implementation class (CustomerDaoImpl)
+
+4. Test it using main(...) based tester.
+
+Day 2
+1. Solve voting assignment.(mandatory)
+refer to case study diagram.
+
+Assignement help
+1. Tables --voters(id(int) PK, email unique , password , status(boolean/varchar)
+candidates -- id (int) PK , name , political party , votes
+
+2. Create POJOs
+Voter & Candidate
+
+3. Create VotingDao i/f
+methods
+3.1 Voter authenticateVoter(String em,String pass) throws Exception
+3.2 List<Candidate> getCandidateList() throws Exception
+
+3.3 String incVotesUpdateStatus(int candidateId,int voterId) throws Exception
+
+4. In ListServlet
+List<Candidate> candidates=dao.getCandidateList();
+pw.print("<form action=status>");
+for(Candidate c  : candidates)
+ pw.print("<input type=radio name=c_id value="+c.getId()+">"+c.getName()+" "+c.getPar);
+pw.print("<input type=submit value='Vote'>");
+pw.print("</form>");
+
+Day3 
+Complete voting assignment
+
+Day 4 
+Refer to lab sequence (complete reading part also)
+
+Day5
+Create dynamic web application with the layers
+JSP--JB--DAO(DBUtils) -- POJO --DB 
+Solve minimum Voter authentication & if possible Voter registration.
+Refer to modified case study for the page flow.
+
+
+

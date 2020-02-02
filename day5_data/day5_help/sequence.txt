@@ -1,0 +1,107 @@
+Today's topics
+JSP tags
+scripting elements
+Directives
+Actions 
+JSP Using JavaBean related actions
+JSTL
+
+Revise
+Client pull vs server pull --page navigation techs
+clnt pull -- NEXT request
+min scope of attrs =session
+attr ??????????
+obj/entry on the server side
+=key n value pair
+key --attr name --string
+value --attr val --object
+scope ---request/session/application
+eg : rq10 ---one.jsp
+URL --- http://host:port/day5/one.jsp
+<html>
+<head>....</head>
+<body>
+<%
+  request.setAttribute("nm1",1234);
+ //create RD
+  RD rd=request.getRD("two.jsp");
+  if(rd != null)
+   rd.forward(request,response);
+%>
+</body>
+</html>
+
+two.jsp
+
+<%
+   out.print("rq attr val "+request.getAttribute("nm1");
+%>
+
+Why JSP 
+What is it ?
+Life cycle 
+JSP tags syntax for version 2.x
+
+Solve
+${sessionScope.abc}
+session.getAttribute("abc") --to string --sent to clnt
+${applicationScope.loan_scheme}
+getServletContext().getAttribute("loan_scheme") ---tostring --sent to clnt
+${param.email}
+request.getParameter("email") --sent to clnt
+${cookie.JSESSIONID.value} --
+cookie.get("JSESSIONID").getValue() --sent to clnt
+${sessionScope.user_dtls.name} -- 
+session.getAttribute("user_dtls").getName()
+${abc}
+--pageScope.get("abc") -- null
+requestScope ..... applicationScope.get("abc") --null
+BLANK
+
+${initParam.nm}
+--getServletContext().getInitParameter("nm") 
+${pageContext.session.id} --
+pageContext.getSession().getId()
+--session id --sent to clnt
+
+${pageContext.session.maxInactiveInterval}
+--------------------------
+JSP Actions for managing JBs
+1. Action for creating JB instance & saving it under a scope
+syntax : <jsp:useBean id="bean id" class="F.Q bean cls name" scope="page|request|session|application"/>
+default scope= page
+eg : <jsp:useBean id="cust" class="beans.CustomerBean" scope="session"/>
+
+2. <jsp:setProperty name="bean id" property="*"/>
+WC tries to invoke all MATCHING setters(
+req param MUST match with JB prop. setters)
+
+eg : <jsp:setProperty name="cust" property="*"/>
+
+3. <jsp:getProperty name="cust" property="email"/>  -- result to string --sent to clnt.
+
+OR EL syntax
+${sessionScope.cust.email}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

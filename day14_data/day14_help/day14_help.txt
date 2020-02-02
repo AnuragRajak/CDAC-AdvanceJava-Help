@@ -1,0 +1,189 @@
+Session Tracking in spring MVC
+Redirect attributes (flash scoped attributes)
+2 way Form Binding 
+Many-to-Many association (bi dir)
+Internals about automatic session/tx management 
+4. Handling request params (w/o using form binding) -- of different types(int,string,date)
+eg : <a href="test/hello2?name=abc&age=25&joinDate=11/30/2011">Test Request Params</a>
+
+Annotation to use  in controller method -- @RequestParam 
+
+-----------------------------------
+
+5. Handling path variables (extremely important for RESTful web services) via
+@PathVariable & @DateTimeFormat & JSTL fmt library
+eg URL : <a href="test/hello3/abc/25/23-12-2017">Test Path Variables</a>
+
+eg :
+URI Template http://www.example.com/users/{userId} 
+Above contains the variable userId. Assigning the value "rama" to the variable yields http://www.example.com/users/rama
+
+In Spring MVC you can use the @PathVariable annotation on a method argument to bind it to the value of a URI template variable:
+@RequestMapping(value="/users/{userId}", method=RequestMethod.GET)
+public String findUser(@PathVariable(name="userId") String userId123, Model model) {
+User user = userService.findUser(userId);
+model.addAttribute("user_details", user);
+return "display_user";
+}
+The URI Template "/users/{userId}" specifies the variable name userId. When the controller handles this request, the value of userId is set to the value found in the appropriate part of the URI.
+
+
+
+6. How SC creates a populated Model Map ? (eg : With customer pojo)
+Add a parameter to req handling method (Customer)
+
+7. Create layered spring web application for Customer management.
+Controller -- @Controller , @RequestMapping
+@AutoWired
+private CustomerService service;
+
+Service -- B.L  --i/f --- validate,register,list
+Imple class ---@Service
+
+POJO -- Customer
+
+
+Layers -- Controller --- Service (B.L+Tx management @Transactional) --POJO
+
+Objective --List Customers (copy customer POJO & sample service code,copy forms)
+
+Validate Customer 
+Flow -- index.jsp -- login form  --Controller --HM based validation ---err --login form with err mesg , success (add cust details in HS)  --details page --logout.
+
+Method in CustomerController --for validating user
+@PostMaping("/login")
+public String process(c)
+{
+ //invoke service 
+ service.validate(em,pass);
+
+}
+ 
+resp.sendRedirect(resp.encodeRedirectURL("/cust/details"));
+http://host:port/spring_mvc/cust_details 
+
+
+
+Register Customer --- redirect to login page with a mesg.
+Flow -- index.jsp -- reg  form  --Controller -- HM based registration --- err (duplicate email) -- login form with err mesg -- success (add cust details in HS)  --details page --logout.
+
+More on RedirectAttributes
+org.springframework.web.servlet.mvc.support.RedirectAttributes
+--map of flash scoped attributes
+Use case --- redirect scenario
+To remember the attrs in the next request.
+API
+public RedirectAttributes addFlashAttributes(String nm,Object val)
+
+
+7. Add P.L (copy all annotations @Pattern etc)
+7.1 Add annotations for P.L validation
+7.2 Add @Valid on model attribute
+7.3 <form:errors > along with path
+
+
+
+9. spring web + hib --for customer scenario
+Controller --- Service (@Service,@Transactional) --Hib Based DAO (@Repository) --POJO (@Entity) -- DB
+POJO -- @Entity,@Id
+POJO props ---duel role --- represents DB cols + clnt conv state
+
+eg : Customer
+@NotEmpty
+@Email
+private String email;
+
+@Column(...)
+getEmail()
+
+
+Spring MVC Flow
+Add Login --Logout functionality
+How to replace default forward vire by redirect view in spring MVC ?
+Ans -- use redirect keyword.
+eg : return "redirect:/vendor/details";
+D.S invokes response.sendRedirect(response.encodeRedirectURL("/vendor/details"));
+Next request from clnt --- ..../vendor/details
+
+How to remember the details(attributes) till the next request (typically required in PRG --redirect view)
+Ans -- Add the attributes under flash scope.
+(They will be visible till the next request)
+How to add ?
+Use i/f -- o.s.w.s.mvc.support.RedirectAttributes
+Method
+public RedirectAttributes addFlashAttribute(String attrName,Object value)
+
+-------------------
+How to take care of links(href)/form actions + add URL rewriting support ?
+1. Import spring supplied JSP tag lib.
+(via taglib directive)
+prefix ="spring"
+
+2.  eg:
+<a href="<spring:url value='/vendor/logout'/>">Log Out</a>
+What will be the URL if cookies are enabled ?
+http://host:port/spring_mvc/vendor/logout
+
+What will be the URL if cookies are disabled ?
+http://host:port/spring_mvc/vendor/logout;jsessionid=egD5462754
+
+http://host:port/spring_mvc/vendor/logout
+
+From Logout 
+1. Discard session
+2. Forward the client to logout.jsp
+
+How to auto navigate the clnt to home page after a dly ?
+By setting refresh header of HTTP response.
+
+API of HttpServletResponse
+public void setHeader(String name,String value)
+
+name --- refresh
+value --- 10;url=home page url (root of web app)
+
+How to get the root of curnt web app ?
+API of HttpServletRequest
+String getContextPath()
+
+
+Complete Admin Flow
+1. List Vendors
+
+2. vendor deletion
+
+Complete Vendor Management system with
+1. 2 way Form binding for --register & update
+eg : Vendor  registration
+Steps in 2 ways form binding
+1. In show reg form phase : -- add empty POJO as method argument.
+SC -- will create empty POJO instance & auto add it in Model map.
+
+2. Use spring supplied form tag lib for 2 way form binding technique.
+eg : 
+<sf:form method="post" modelAttribute="vendor">
+ <sf:input  path="email" />
+.....
+</sf:form>
+3. In process form phase 
+In @PostMapping method
+Add POJO instance as method argument.
+SC --1. Vendor v=new Vendor();
+2. invokes matching setters (req param names--path
+MUST match POJO prop names.)
+3. Injects populated POJO in the req handling method(under Model map)
+
+Regarding string---> Date /LocalDate conversion
+SC can auto convert from string --> Date.
+Def date format -- mon/day/year
+Can be changed to required format by using
+@DateTimeFormat(pattern="yyyy-MM-dd") 
+
+
+
+
+
+
+
+
+

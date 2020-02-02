@@ -1,0 +1,28 @@
+Lab sequence
+0. Extract spring javadocs (or download latest API docs for spring 5 version)
+1. Revise all possible associations
+2. Integrate web app with hibernate.
+JSP--JB--DAO --HibUtils --Hib based Entities.
+
+
+Readme H.W
+1. Read spring sequence (from day10_data\day10_help\spring-help\spring-sequence.txt) till dependency injection
+
+2. Go through JPA-Entity -Value-Type diagram
+
+
+
+
+
+
+
+
+
+
+
+
+
+Excellent tutorials 
+
+1. https://vladmihalcea.com/tutorials/hibernate/
+2. https://thoughts-on-java.org/

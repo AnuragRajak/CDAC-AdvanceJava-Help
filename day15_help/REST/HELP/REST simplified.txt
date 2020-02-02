@@ -1,0 +1,149 @@
+﻿What is REST ?
+
+REST stands for REpresentational State Transfer. 
+Why the name ?
+It's the representation of the resource (eg : image/student/customer/invoice/bill....) using known data exchange formats(text/xml/json) --which gets transferred between client & server .
+
+REST is web standards based architecture and uses HTTP Protocol for data communication. 
+
+It revolves around resource where every component is a resource and a resource is accessed by a common interface using HTTP standard methods. (ROA)
+
+REST was first introduced by Roy Fielding in 2000.
+
+In REST architecture, a REST Server simply provides access to resources and REST client accesses and presents the resources. 
+
+Here each resource is identified by URIs
+
+REST uses various representations to represent a resource like text, JSON and XML. Most popular light weight data exchange format  used in web services = JSON
+
+HTTP Methods
+Following well known HTTP methods are commonly used in REST based architecture.
+
+GET - Provides a read only access to a resource.
+
+POST - Used to create a new resource.
+
+DELETE - Used to remove a resource.
+
+PUT  - Used to update a existing resource or create a new resource.
+
+
+
+RESTFul Web Services
+
+A web service is a collection of open protocols and standards used for exchanging data between applications or systems. 
+
+Platform & technology independent solution.
+
+Software applications written in various programming languages and running on various platforms can use web services to exchange data over computer networks like the Internet in a manner similar to inter-process communication on a single computer. 
+
+This interoperability (e.g., between Java and Python, or Windows and Linux applications or java & .net ) is due to the use of open standards.
+
+
+Web services based on REST Architecture are known as RESTful web services. 
+
+These web services use HTTP methods to implement the concept of REST architecture. A RESTful web service usually defines a URI, Uniform Resource Identifier a service, provides resource representation such as JSON and set of HTTP Methods.
+-----------------
+Annotations 
+1. @PathVariable --- handles URL templates. 
+eg : URL -- http://host:port/test_web/products/10
+Method of Controller
+@GetMapping("/{pid}")
+public Product getDetails(@PathVariable int pid)
+{...}
+In the above URL , the path variable {pid} is mapped to an int . Therefore all of the URIs such as /products/1 or /products/10 will map to the same method in the controller.
+
+2. The @ResponseBody annotation is used to marshall(serialize) the return value into the HTTP response body. Spring comes with converters that convert the Java object into a format understandable for a client. 
+
+3.The @RequestBody annotation, instead, unmarshalls the HTTP request body into a Java object injected in the method.
+---------------------
+The RestTemplate is similar to other Spring templates such as JmsTemplate and JdbcTemplate in that Spring eliminates a lot of boot strap code and thus makes your code much cleaner.  When applications use the RestTemplate they do not need to worry about HTTP connections, that is all encapsulated by the template. They also get a range of APIs from the RestTemplate which correspond to the well know HTTP methods (GET, PUT, POST, DELETE, HEAD, OPTIONS).  These APIs are overloaded to cater for things  like different ways of passing parameters to the actual REST API.
+------------------
+Create resful service provider project & then develop its client
+
+
+
+For spring restful web service --actually only spring web mvc , hibernate validator & json jars are sufficient.
+
+Server side steps
+
+1. Create Spring Web MVC application
+2. The layers --service --dao--pojo --DB are the same.
+3. In controller layer , replace @Controller by @RestController annotation, at class level.
+4. Request Handling methods will respond to different HTTP methods
+(get/post/put/delete)
+
+5. For method=get
+
+Can directly return either a resource eg : Person,BankAccount or Customer or still better is can return entire HTTP response encapsulated in ResponseEntity<T>
+
+What is org.springframework.http.ResponseEntity<T> 
+Represents  HTTP  response entity, consisting of status,headers and body.
+
+Constructors
+1. public ResponseEntity(T body,HttpStatus statusCode)
+Create a new ResponseEntity with the given body and status code, and no headers.
+2.public ResponseEntity(T body,MultiValueMap<String,String> headers,                 HttpStatus statusCode)
+Create a new ResponseEntity with the given body and status code, and headers.
+
+1. In the controller's get handling method 
+1.1 In @RequestMapping(value = "add uri with template variables")
+Return type of the method  = either a resource or resource embedded in the ResponseEntity.
+
+2. Use service layer to fetch a resource.
+3. Return it to the client.
+eg : @GetMapping(value="/cust/{id}")
+	public Customer getCustomerById(@PathVariable int id) {
+        invoke service layer method to get customer details
+}
+
+2. In the controller's post handling method 
+1. In @PostMapping(value = "uri")
+Add @RequestBody annotated method argument
+Return type of the method  = either a resource or resource embedded in the ResponseEntity.
+
+3. Use service layer to fetch a resource.
+3. Return it to the client.
+
+-------------------------
+@RestController : Spring 4′s new @RestController annotation.
+Its a combination of @Controller and @ResponseBody.
+
+@RequestBody : If a method parameter is annotated with @RequestBody, Spring will bind the incoming HTTP request body(for the URL mentioned in @RequestMapping for that method) to that parameter. While doing that, Spring will [behind the scenes] use HTTP Message converters to convert the HTTP request body into domain object [deserialize request body to domain object], based on ACCEPT or Content-Type header present in request.
+
+@ResponseBody : If a method is annotated with @ResponseBody, Spring will bind the return value to outgoing HTTP response body. While doing that, Spring will [behind the scenes] use HTTP Message converters to convert the return value to HTTP response body [serialize the object to response body], based on Content-Type present in request HTTP header. As already mentioned, in Spring 4, no need to use this annotation.
+
+ResponseEntity is a real deal. It represents the entire HTTP response. Good thing about it is that you can control anything that goes into it. You can specify status code, headers, and body. It comes with several constructors to carry the information you want to sent in HTTP Response.
+
+@PathVariable This annotation indicates that a method parameter should be bound to a URI template variable [the one in '{}'].(binding between request handling method parametere & URI template variable)
+
+
+MediaType : With @RequestMapping annotation, you can additionally, specify the MediaType to be produced or consumed (using produces or consumes attributes) by that particular controller method, to further narrow down the mapping.
+------------------
+URI Template Patterns
+URI templates can be used for convenient access to selected parts of a URL in a @RequestMapping
+method.
+A URI Template is a URI-like string, containing one or more variable names. When you substitute
+values for these variables, the template becomes a URI. The proposed RFC for URI Templates defines
+how a URI is parameterized. For example, the URI Template http://www.example.com/users/
+{userId} contains the variable userId. Assigning the value fred to the variable yields http://
+www.example.com/users/fred.
+In Spring MVC you can use the @PathVariable annotation on a method argument to bind it to the
+value of a URI template variable:
+@RequestMapping(value="/owners/{ownerId}", method=RequestMethod.GET)
+public String findOwner(@PathVariable String ownerId, Model model) {
+Owner owner = ownerService.findOwner(ownerId);
+model.addAttribute("owner", owner);
+return "displayOwner";
+}
+The URI Template " /owners/{ownerId}" specifies the variable name ownerId. When the controller
+handles this request, the value of ownerId is set to the value found in the appropriate part of the URI.
+For example, when a request comes in for /owners/abc, the value of ownerId is abc.
+To process the @PathVariable annotation, Spring MVC needs to find the matching URI template
+variable by name. You can specify it in the annotation:
+@RequestMapping(value="/owners/{ownerId}", method=RequestMethod.GET)
+public String findOwner(@PathVariable("ownerId") String theOwner, Model model) {
+// some implementation
+}
+Or if the URI template variable name matches the method argument name you can omit that
+detail. As long as your code is not compiled without debugging information, Spring MVC will match the method argument name to the URI template variable name:

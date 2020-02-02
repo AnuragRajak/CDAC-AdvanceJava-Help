@@ -1,0 +1,181 @@
+Today's main topics
+servlet JDBC integration
+Page Navigation Techniques
+Session Tracking
+
+
+
+
+Assignment status ??????????????
+Revise
+
+Why J2EE 
+1. can support diff clnts
+2. server inde. (How -- separation bet specs & imple)
+3. rdy imple of prim services
+
+what is it ?
+specs --- rules/contract 
+prim services/ enterprise services
+eg : servlet / JSP /JB,conn pooling , security,JTA.....
+vendor -- Oracle/sun
+
+Request response flow(Layers)
+URL --- http://www.abc.com:8080/day2_web/validate?em=abc&pass=1234
+Layers --- Host(IP) ---Web Server(Tomcat --TCP)--WC(s.s JVM , run time env dyn web comps --servlets,JSP,Filter)---web app (/day2_web)--
+
+URI ---/ctx path /url-pattern ? query string
+
+
+J2EE compliant web app folder structure
+<day2_web>
+<WEB-INF> -- web.xml , <classes> , <lib>
+private from clnt
+root (WebContent) --public 
+html/JSP/css/js/images...
+<src> -- java source files
+
+What is a Servlet 
+init , service , destroy
+
+its jobs 
+1. rq processing 
+2. B.L
+3. page navigation
+(taking clnt from 1 pgae to another ---clnt pull / server pull)
+4. Manage DAO 
+5. resp gen.
+
+Revise Servlet API
+javax.servlet.Servlet i/f -- 5 methods
+init,service , destroy
+GenericServlet --abstract
+service --abstract
+
+H.S -- abstract --all concrete methods
+eg : service , doXXX
+
+How do you create n deploy a servlet ?
+public class Test exetnds H.S
+{
+   @Override
+   protected/public void doGet(HSReq rq,HSResp rs) throws SE,IOExc
+  {
+     
+  }
+}
+
+javax.servlet.ServeltException
+public ServletException(String message,
+                Throwable rootCause)
+
+Centralized err handling in Servlets
+How ?
+@Override
+public void init() throws ServletException
+{
+try {
+ // create dao inst
+} catch(Exception e)
+{
+  throw new ServletException("err in init" +getClass().getName(),e);
+}
+}
+
+--------------------
+eg : @WebServlet("/validate)
+public class LoginServlet extends H.S {....}
+
+OR xml tags
+
+1. What will happen if u don't add / in url pattern ?  --error(web app doesn't get deployed --- invalid url pattern (IllegalArgumentException))
+
+
+ 
+2. What will happen --if u add "/url-pattern" in form action or href ? --- HTTP 404 (uses absolute url eg : http://host:port/hi)
+
+3. Can 1 servlet be deployed using multiple url-patterns? --
+4 Can 2 servlets be deployed having same url-pattern? --
+5. Can 2 web-apps have same ctx path ? -- 
+6. What will happen if servlet class is not public ? --
+
+7. What will happen if u supply only a  parameterized constr to the servlet ? --- 
+
+8. Why a servlet should not override service method ?
+
+Servlet Life cycle seen so far ?????
+
+What's the trigger for WC to start the life cycle of a servlet ?
+
+-----------------------
+
+load-on-startup
+@WebServlet annotation 
+load-on startup --def value =-1
+eg : @WebServlet(value={"/hi","/hello"},loadOnStartup=1)
+public class Servlet1 extends H.S {...}
+
+@WebServlet("/test")
+public class Servlet2 extends H.S {...}
+use case of loadOnStartup
+--in case of time consuming init methods(eg : DAO inst DispatcherServlet of Spring MVC)
+
+---------------------
+How to read request params sent from the clnt ?
+
+javax.servlet.ServletRequest i/f methods
+1. public String getParameter(String paramName)
+
+2. public String[] getParameterValues(String paramName)
+
+Servlet--JDBC integration
+
+
+
+Layers involved 
+Servlet --DAO(DBUtils) -- POJO -- DB
+
+
+LoginServlet 
+D.M -- dao 
+init --- DAO inst
+destroy --- Dao's clean up
+doGet 
+1. set cont type
+2. pw
+3. read rq params
+4. invoke Dao's --validate 
+null --- Invalid login --retry link
+not null ---mesg , display customer dtls
+
+Objective 
+Complete login--logout flow
+(login.html -- LoginServlet --successful login --redirect to DetailsServlet --logout link --LogOutServlet
+
+
+How to redirect client ?
+Page navigation --client pull
+Refer to page navigation techniques.
+----------------------
+
+What will happen if u explicitely flush/close PrintWriter & then invoke sendRedirect ?
+WC throws ---java.lang.IllegalStateException --
+reason --Can't redirect the clnt (empty the buffer's contents) after committing the response.
+
+-------------------------
+
+Enter session tracking(refer to its readme)
+
+Why ?
+What is it 
+
+IMPORTANT --- copy context.xml from "j2ee_help\day1_help\config files" in your <tomcat>/conf
+
+Then try out cookie based session tracking.
+
+------------------------------------
+Pending
+Servlet life cycle with threads.(ref : diag thread pool executor)
+
+CGI vs Servlets
+----------------------

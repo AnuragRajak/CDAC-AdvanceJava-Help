@@ -1,0 +1,176 @@
+Today's topics
+
+Revsion of Spring MVC steps n concept n flow
+Model n View 
+Model Attributes & Model Map
+Solve case study along with spring hibernate integration.
+
+
+
+Enter Spring MVC --concept & implementation steps
+0.Open J2EE perspective
+1.Create dynamic web project
+2. Add spring-all user lib in 2 places
+2.1 Under build path
+2.2 Under deployment assembly
+
+3. Configure front controller to intercept any request from any client, in web.xml.
+Copy welcome-file-list , servlet & servlet-mapping tag from the template present in --day12_help\spring-hibernate\spring-hibernate-templates\web.xml
+
+4. Copy master config xml file for starting SC.
+copy spring-servlet.xml under <WEB-INF>
+
+5. Create request handling controller.
+Annotations used -- @Controller & @RequestMapping
+5.1 Test Spring MVC flow --by adding index.jsp in WebContent & welcome.jsp under <WEB-INF>/views/
+
+
+
+5.2 Test Model & View
+---------------------
+Objective
+1.What is o.s.w.s.ModelAndView?
+ -- A class -- holder of logical view name + model (model attributes)
+What is a model attribute 
+An attribute(=key & value pair --attrName & value)
+which represents results of B.L, kept in a controller
+Who creates it ? --Req handling controller.
+Sends it to --D.S
+D.S will save them under REQUEST scope & push it to view layer. 
+How to read them in JSP(view)?
+Using EL syntax.
+
+Constr of ModelAndView(String logicalView,String modelAttrName,Object modelAttrValue)
+
+
+2. Understand concept of Model
+
+Concept of Model --o.s.ui.Model (i/f)  = map of model attributes
+Type of Map -- Map<String,Object>
+
+API of Model --to create model attrs
+public Model addAttribute(String name,Object value)
+
+who creates empty map -- SC
+
+How do u(Controller)  access it --can be passed as one of the params of request handling methods. (as Dependency)
+
+who populates it -- SC / Controller(prog)
+why ? -- to share the results available in controller layer with View.
+Model attr map is sent from controller --> F.C Front Controller  (Dispatcher Servlet) 
+F.C adds it in request scope & pushes it(sends it) to JSP (view layer)
+So this is called push MVC architecture.
+
+
+3. How to add model attr in Model map?
+public Model addAttribute(String nm,Object value);
+
+How to get Model map ? 
+Using D.I -- just tell SC that your req handling method needs a model map(how ? -- by adding it in the method arg) & SC will create Model map & inject it in your code.
+
+
+How to access  request params  in request handling controller method ?
+Use @RequestParam annotation on method args.
+(If you match , req param name with method arg name, SC will inject req param directly)
+
+
+
+
+
+
+PRG pattern(Post-redirect-get pattern)
+--- to avoid multiple submission issue in a web app.
+Replace forward view(server pull) by redirect view (clnt pull) --a.k.a double submit guard.
+
+
+
+How to replace default forward view by redirect view in spring MVC ?
+Ans -- use redirect keyword.
+eg : return "redirect:/vendor/details";
+D.S invokes response.sendRedirect(response.encodeRedirectURL("/vendor/details"));
+Next request from clnt --- ..../vendor/details
+
+How to remember the details(attributes) till the next request (typically required in PRG --redirect view)
+Ans -- Add the attributes under flash scope.
+(They will be visible till the next request from the same clnt)
+How to add ?
+Use i/f -- o.s.w.s.mvc.support.RedirectAttributes
+Method
+public RedirectAttributes addFlashAttribute(String attrName,Object value)
+
+How to access them in view layer ?
+via request scope.
+
+
+eg : In case of successful login --save user details under session scope(till user log out) & retain status mesg only till the next request.
+In case of invalid login --save status under request scope.
+
+
+-------------------Pending
+How to take care of links(href)/form actions + add URL rewriting support ?
+1. Import spring supplied JSP tag lib.
+(via taglib directive)
+prefix ="spring"
+
+2.  Use the tag.
+<a href="<spring:url value='/vendor/logout'/>">Log Out</a>
+ / --- root of curnt web app.
+What will be the URL if cookies are enabled ?
+http://host:port/spring_mvc/vendor/logout
+
+What will be the URL if cookies are disabled ?
+http://host:port/spring_mvc/vendor/logout;jsessionid=egD5462754
+
+http://host:port/spring_mvc//logout
+
+From Logout 
+1. Discard session
+2. Forward the client to logout.jsp
+
+How to auto navigate the clnt to home page after a dly ?
+Ans : By setting refresh header of HTTP response.
+
+API of HttpServletResponse
+public void setHeader(String name,String value)
+
+name --- refresh
+value --- 10;url=home page url (root of web app)
+
+How to get the root of curnt web app ?
+API of HttpServletRequest
+String getContextPath()
+
+
+Complete Admin Flow
+1. List Vendors
+
+2. vendor deletion
+-------------------
+
+Complete Vendor Management system with
+1. 2 way Form binding for --register & update
+eg : Vendor  registration
+Steps in 2 ways form binding
+1. In show reg form phase : -- add empty POJO as method argument.
+SC -- will create empty POJO instance & auto add it in Model map.
+
+2. Use spring supplied form tag lib for 2 way form binding technique.
+eg : 
+<sf:form method="post" modelAttribute="vendor">
+ <sf:input  path="email" />
+.....
+</sf:form>
+3. In process form phase 
+In @PostMapping method
+Add POJO instance as method argument.
+SC --1. Vendor v=new Vendor();
+2. invokes matching setters (req param names--path
+MUST match POJO prop names.)
+3. Injects populated POJO in the req handling method(under Model map)
+
+Regarding string---> Date /LocalDate conversion
+SC can auto convert from string --> Date.
+Def date format -- mon/day/year
+Can be changed to required format by using
+@DateTimeFormat(pattern="yyyy-MM-dd") 
+

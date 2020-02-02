@@ -1,0 +1,144 @@
+Today's topics
+Hibernate Session API CRUD
+L1 cache
+POJO lifecycle
+HQL/JPQL
+Blob Handling
+
+Revise
+
+What is Hibernate ? (refer to readme) 
+Manages persistence.
+ORM tool
+Provides auto persistence
+JPA implementor
+JPA -- J2EE spec for persistence --Oracle/sun
+other persistence providers -- Kodo,EclipseLink...
+
+Why hibernate ? (refer to readme) 
+faster,conn pooling, db inde,supports OOP features,auto table creation....
+
+Hibernate architecture & important blocks
+
+HibernateUtils 
+Role -- to provide singleton SF
+MetaData ---buildSF
+MetaDataSources(ServiceReg reg)
+StandardServiceRegBuilder -- configure(hib.cfg.xml)--build
+
+-----------------------
+Steps in hibernate with Java SE 
+
+
+0. Extract hibernate api-docs & open index.html in browser.
+1. Create Java SE project.
+2. Create User lib with hibernate JARs.
+3. Add user lib under build path
+4. Create <resources> , as new source folder(R click on src & create new src folder---<resources>)
+5. Copy hibernate.cfg.xml under <resources>
+
+How to test bootstrapping(SF creation) of hibernate frmwork ?
+
+6. Create HibernateUtils class -- to create singleton , immutable SF
+(Contains Native code for hibernate --not expected to be remembered--soon to be removed by spring-hibernate integration)
+
+6.1 Create service registry instance for JPA
+6.2 Create SF from MetaData
+
+7. Write a Tester(main(...)) based to test hibernate bootstrapping.
+
+8. Identify persistence requirements & create POJOs.
+eg : Customer
+POJO specifications
+1.public , packaged class
+2.default constr
+3.IMPORTANT -- id property of hib POJO --must be Serializable
+(eg : Integer/Long or can be primitive type too)
+4. Supply setters & getters for all properties.
+
+5 . How to supply mapping instrs to hib for HBM ?
+ --annotations (from javax.persistence) 
+OR POJO.hbm.xml 
+eg : Customer.hbm.xml
+
+
+8. Import all annotations from javax.persistence (JPA)
+8.1 Manadatory annotations for hib.
+@Entity --- cls level
+@Id --field level OR property level(getter)
+ & add optional BUT reco. ones (@Column,@Table....)
+
+8.2 Modify Date --by LocalDate
+Add enum (Customer type) ---@Enume
+Add photo/image 
+Add confirmPassword --@Transient
+
+9. MUST add this POJO entry under hibernate.cfg.xml
+<mapping class="F.Q pojo cls name"/>
+& run TestHibernate again.
+Observe console ----confirm  auto table creation.
+
+10. Hibernate based DAO Layer
+10.1 DAO i/f
+public String registerCustomer(Customer c);
+
+10.2 DAO implementation class
+1. import --- org.hibernate, pojos, utils
+2. No d.m , constr , cleanup
+3. CRUD method
+3.1 Get hib session from SF
+
+SF API
+public Session openSession() throws HibernateExc.
+3.2 Begin Transaction
+3.3 try {
+   Perform CRUD (Session API) work
+   commit tx.
+} catch (HibernateException e) { rollback tx}
+finally { close hib session }
+
+For org.hibernate.Session API --refer to its readme .
+
+11. Save customer details --- save
+
+12. Fetch customer details by id --- get
+
+13. Fetch all customer details.
+
+14. Fetch all customer details with reg amt > specified amt & registered before specific date
+eg : String jpql="select c from Customer c where c.depositAmount > :amt and c.regDate < :dt";
+
+15. Validate customer 
+i/p email password 
+o/p Login successful with user details
+or error message.
+
+16. Update customer details
+i/p customer id & new password
+o/p status message
+
+----------------------------------
+Pending....
+17. Un subscribe customer by id
+
+18 Attach photo
+
+19. Retrieve photo.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

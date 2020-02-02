@@ -1,0 +1,16 @@
+1. Import day8.1 eclipse project in your workspace 
+2. Edit user lib / JDK lib 
+3. Copy your tested hibernate.cfg.xml under <resources>
+4. Run testers to understand CRUD in hibernate.
+
+5. Solve assignment.
+
+Reading Homework (MUST)
+1. From hibernate javadocs --org.hibernate.Session i/f details
+
+2. From today's help 
+hibernate_help.txt
+hibernate session api.txt (till covered)
+regarding ID generators.
+
+Refer to diags , from today's help.

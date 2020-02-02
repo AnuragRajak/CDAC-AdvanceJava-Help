@@ -1,0 +1,106 @@
+Reading H.W
+From day13_data\day13_help\webservices\
+Pls read 
+1.What are webservices
+2. JSON tutorial with simple example
+3. RESTful Web Services Tutorial with Example
+(excluding implementation in ASP .NET)
+
+MUST create spring MVC hibernate web application from scratch.
+
+Objective : validate voter 
+show candidate list.
+
+After completing this, import day13.2 , make necessary changes & complete case study.
+
+1. Create dynamic web project
+2. Add User library --spring-hibernate-rest jars(spring_all) under 
+build path
+deployment assembly(WEB-INF/lib)
+DO NOT add any other library.
+3. Add DispatcherServlet entry in web.xml  -- to ensure all request pass through central dispatcher servlet.(copy tags from web.xml)
+4. Create spring-servlet.xml under <WEB-INF> -- To allow D.S to create Web application context using master config xml file. (copy spring-servlet.xml under <WEB-INF>)
+
+
+
+5. Create <resources> as a new src folder  & copy database.properties & hibernate-persistence.xml from <spring-hibernate-templates>
+EDIT database.properties , as per your hibernate.cfg.xml
+
+What it contains --- 
+5.1 DataSource bean --- Apache (Connection pool)
+5.2 SF bean -- Spring
+5.3 Tx Mgr --- Spring
+5.4 enabled anno support for Txs(@Transactional)
+
+6 import hibernate-persistence.xml into spring-servlet.xml
+Configuration steps over....
+
+7. Identify persistence requirements & create POJO/Model/DTO.
+POJO properites --- represent 1. DB cols 2.Request params --i.e clnt's conversational state.
++ P.L validation rules --anno.
+class level --@Entity,@Table
+Anno -- field level --- @NotEmpty,@NotNull,@Email....
+Annotation -- prop level(getter) --@Id,@Column....
+
+8. Create DAO layer 
+
+I/F -- Dao i/f --- validateCustomer
+Implementation class ---
+dependency --- SessionFactory -- @AutoWired
+No need to manage Txs --directly get session from SF & perform CRUD operation.
+
+9. Create Service Layer --i/f & then implementation class
+@Service & @Transactional --- annotations.
+Inject dependency of Dao Layer.
+
+10 Create or copy existing controllers & test the flow.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

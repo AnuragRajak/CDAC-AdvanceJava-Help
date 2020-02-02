@@ -1,0 +1,7 @@
+create table vendors(id int(5) primary key auto_increment,name varchar(20), email varchar(20) unique, password varchar(20),city varchar(20), cell_no varchar(10) unique , reg_amount double(8,1),reg_date date,role varchar(10));
+
+insert into vendors values(default,'rama','rama@gmail.com','1234','pune','8522334456',2500,'2019-1-1','admin');
+
+insert into vendors values(default,'sameer','sam@gmail.com','2234','mumbai','8922334456',500,'2018-11-21','vendor');
+
+insert into vendors values(default,'riya','riya@gmail.com','3234','delhi','9862233445',1500,'2017-3-4','vendor');

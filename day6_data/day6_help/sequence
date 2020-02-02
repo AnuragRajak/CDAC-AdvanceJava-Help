@@ -1,0 +1,284 @@
+Today's Topics
+JSP Directives
+JSP using JavaBean  Actions 
+JSP Actions for page navigation
+JSTL
+
+eg : ${sessionScope.bk.categories} --List<String>
+<c:forEach var="cat" items="${sessionScope.bk.categories}">
+ ${cat}
+</c:forEach>
+WC ---
+<%
+for(String cat : session.getAttribute("bk").getCategories())
+  out.print(cat);
+%>
+  
+---------------------
+
+Revise
+
+List JSP implicit objects
+accessible from scriptlets n exprs
+<%  java code %>
+in translated page --- _jspService
+will be called once per request
+<%= LocalDate.now() %>
+list -- request,repsonse,out,config,application,session,exception,page,pageContext
+
+eg : one.jsp
+<%= page %>
+---org.apache.jsp.one_jsp@hashCode
+
+Accessible from  --- scriptlets n exprs
+List of EL implicit objects
+param,initParam,pageScope,requestScope,sessinScope,applicationScope,cookie
+eg : one.jsp
+<% 
+ Cookie c1=new Cookie("nm",1234);
+  response.addCookie(c1);
+  response.sendRedirec("two.jsp")
+%>
+
+How to display a cookie value from two.jsp ?
+Cookie value : ${cookie.nm.value}
+
+Accessible from EL syntax only
+
+eg : of applying thrd safety to ctx scoped attrs.
+<%
+    synchronized(application) {
+     application.setAttribute("sale",s1);
+    }
+%>
+
+Solve Testing scopes (via code)
+
+Solve
+ 
+<%= session.setAttribute("abc", 1234) %>
+<%= LocalDate.now() %>
+<%= application.getAttribute("abc") %>
+
+${sessionScope.nm}
+${pageContext.session.id}
+${pageContext.request.contextPath}
+${pageContext.session.maxInactiveInterval}
+
+In JSP
+How will you store attribute under session scope ?
+
+How will you retrieve attribute from session scope ?
+via scriptlet & send its value to clnt ?
+
+via expr  & send its value to clnt ?
+
+via expr  & send its value to clnt ?
+
+page vs pageContext vs pageScope
+
+
+Layers in web application
+JSP--JavaBean ---DAO (DBUtils) --- POJO--DB
+
+Why Java Bean ?
+1. separation between B.L & P.L
+2. re usability
+JB -- attribute
+
+bean id   --attr name
+bean cls instance -- attr value
+scope --- scope (page|request|session|application)
+
+3. auto translation
+WC performs auto translation from string based req params ----> primitive JB properties.
+eg : string -> double/int/boolean/.... --YES
+string --Date --NO
+In Customer Bean
+what should be the data type of 
+regAmount --double
+regDate --- string
+
+What is it ?
+1.public n pkged class
+2. properties of JB -- clnt's conversational state(
+eg : email , password....), B.L results , DAO ref.
+
+3. def constr ---DAO inst
+4. B.L methods
+public access specifier
+But typically -- no -args(since setters will be called prior to this)
+
+Revise Customer Login with layers
+(JSP--JB--DAO--POJO--DB)
+eg : <jsp:forward 
+page="${sessionScope.cust.validateCustomer()}.jsp"/>
+WC -- RD rd=request.getRD(session.getAttribute("cust").validateCustomer().concat(".jsp"));
+rd.forward(request,response);
+
+-----------------------
+JSP standard actions 
+1. <jsp:useBean id="bean unique id" class="F.Q Bean class name" scope="page|request|session|application"/>
+def scope = page
+eg : <jsp:useBean id="cust" class="beans.CustomerBean" scope="session"/>
+WC --session.getAttribute("cust")
+--null
+CustomerBean ref=new CustomerBean();
+session.setAttribute("cust",ref);
+tag rets.
+
+--not null ---tag simply rets.
+
+2.1 <jsp:setProperty name="cust" property="email" value="${param.em}"/>
+WC -- session.getAttribute("cust").
+setEmail(request.getParameter("em"));
+
+2.2 <jsp:setProperty name="cust" property="password" param="pass"/>
+WC -- session.getAttribute("cust")
+.setPassword(request.getParameter("pass"));
+
+2.3 <jsp:setProperty name="cust" property="*"/>
+WC invokes ALL MATCHING setters of JB.
+Request param names MUST MATCH with JB property setters.
+eg : request param names f1,f2 & JB propety setters are
+setEmail & set Pass --how many setters will be called ?
+---0
+
+3. <jsp:getProperty name="cust" property="regAmount"/>
+WC --session.getAttribute("cust").getRegAmount() --to string --sent to clnt
+OR
+EL syntax
+${sessionScope.cust.regAmount}
+
+4. B.L -- EL syntax
+eg : B.L method public String validateCustomer(){...}
+${sessionScope.cust.validateCustomer()}
+--------------
+In case of successful login --forward the clnt to 
+category.jsp
+Hello , name
+${sessionScope.cust.validCust.name}
+WC --- session.getAttribute("cust").getValidCust().getName() --string --clnt 
+
+------------
+JSP standard actions for server pull (navigation)
+1. <jsp:forward page="nextPage URL"/>
+eg : from one.jsp , if u call
+<jsp:forward page="two.jsp"/>
+WC -- ?????????
+Above is static navigational outcome or dynamic ??
+
+
+eg : from one.jsp , if u call
+<jsp:forward page="${requestScope.test.testMe()}.jsp"/>
+WC -- RD rd=request.getRD(request.getAttribute("test")
+.testMe().concat(".jsp");
+rd.forward(request,response);
+Above is static navigational outcome or dynamic ?
+dynamic
+
+2. <jsp:include page="nextPage URL"/>
+eg : from one.jsp , if u call
+<jsp:include page="two.jsp"/>
+WC -- RD rd=request.getRD("two.jsp");
+rd.include(request,response);
+
+-----------------------
+Spot the problem in server pull (forward view)
+---multiple submissions --mutiple times DB query sent un-necessarily.
+Solution
+Replace server pull  by client pull (redirect)
+How ?
+
+JSTL (JSP standard tag library)
+Why ?
+JSP stadard actions are insufficient to solve the business requirement --instead of adding a scriptlet , use JSTL.
+
+What is it ? 
+Java EE spec ---provided by Oracle /Sun
+Implementation left to server vendors.
+Steps
+1. Copy JSTL jar under <tomcat>/lib
+2. Import JSTL supplied core tag library, in your JSP.
+At the top of JSP
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+3. Use JSTL tag
+3.1 <c:redirect url="nextPage URL"/>
+eg : If u call from one.jsp
+<c:redirect url="two.jsp"/>
+WC --response.sendRedirect
+(response.encodeRedirectURL("two.jsp"));
+Whose URL clnt will see ? --- two.jsp
+static /dynamic nav outcome ? ---static
+
+3.2 <c:forEach var="attrName" items="iterable property">
+Body of the loop
+</c:forEach>
+
+Web application listener 
+Event listener in web app programming
+3 types -- i/f 
+1.Servlet context listener
+--contextInitilaized , contextDestroyed
+Auto called by WC -- at the time of starting web app / stopping the same.
+How to deploy a web listener?
+1. Via annotation
+@WebListener --class level annotation
+
+OR
+2. Via XML tags
+web.xml
+<listener>
+ <listener-class>F.Q listener cls name</..>
+</listener>
+
+
+2. Http Session Listener
+3. Servlet Request listener.
+
+Need --Create single instance of  DB cn & use it thro' the application.
+
+
+ 
+
+For validating & registering user , create a Customer Bean
+
+JSP standard actions for JB
+useBean
+setProperty
+getProperty
+
+
+
+Complete login --details(category) --logout flow.
+
+jsp:forward action
+
+forward vs redirect
+
+Enter JSTL
+
+Modify DB setup using context listener
+
+What is web application listener ?
+
+Complete book shop case study
+pages -- login.jsp,reg_form.jsp,register.jsp,validate.jsp
+,category.jsp,category_dtls.jsp,add_to_cart.jsp,check_out.jsp
+
+Beans -- CustomerBean , BookBean
+
+DAO -- CustomerDao , BookDao
+
+POJOs --Customer , Book
+
+tables -- my_customers, dac_books
+
+
+
+
+
+
+
+

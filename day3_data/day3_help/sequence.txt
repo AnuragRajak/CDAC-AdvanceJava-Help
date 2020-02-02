@@ -1,0 +1,149 @@
+Assignment status ?????????
+-----------------
+Today's topics
+Singleton instance of DB connection
+Attribute's Scopes in web programming
+Page navigation techniques --clnt pull (internals)
+Session Tracking internals
+Complete BookShop case study
+Complete life cycle of servlet.
+ServletConfig Vs ServletContext
+--------------------------
+
+First Revise
+
+Why session tracking ?
+1. maintain state of the clnt from login --logout
+2. Identify clnt across multiple clnts
+
+Techniques ?
+1. plain cookie based tech.
+1.1 create a cookie
+Cookie c=new Cookie(nm,val);
+1.2 send the cookie to clnt
+resp.addCookie(c);
+1.3 clnt browser chks --
+disabled -- no session tracking
+enabled -- chk age of cookie
+-1 --- cache (transient)
+0 --- delete cookie
+> 0 --secs --clnt side h/d (persistent cookie)
+How to ? --- public void setMaxAge(int secs)
+eg : rem server IP address is  --ip1 
+In web app(/day3.1) --- s1(a servlet) ---
+Creates a  cookie  --- name --"clnt_info" , value --"details"
+
+clnt IP adr--  ip2
+web site --/day3.1
+1.4 Clnt browser of ip2 will send the cookies to ?
+clnt sends the URL --- http://ip3:8080/.....
+http://ip1:8080/day2/....
+http://ip1:8080/day3.1/s2 -- sent
+http://ip1:8080/day3.1/s10 ---sent
+
+1.5 how to access clnt info from the  cookies ?
+eg : Cookie[] cookies=request.getCookies();
+if(cookies != null)
+ for(Cookie c : cookies)
+  if(c.getName().equals("clnt_info")
+   c.getValue() -- process it!!!!!
+
+
+1.5 limitations of cookie based approach
+string data only
+inc net traffic
+servlet prog has to manage cookies 
+clnt state --saved on clnt side ---vulnerable to deletion/ tampering
+
+2. Session tracking based upon HttpSession i/f
+ 
+Major change -- WC manages cookie
+(nm -- JSESSIONID , val --unique string val generated per clnt)
+Clnt state is no longer saved on clnt side , instead saved on server side(within HttpSession obj)
+One can store/restore java objs directly under the session scope(setAttribute/getAttribute)
+dis adv --- session tracking fails when cookies are disabled.(since key to HS object is still sent to the clnt as a cookie --
+name -- JSESSIOIND
+value -- WC generated unique string(PRNG) / clnt.)
+What is attribute?
+server side object
+entry = mapping =key value pair
+key = attrbute name ---string
+value = attr value -- object
+scope --request | session | application
+
+What is the scope of session scoped attrs ?
+hs.setAttribute(nm,val) -------hs.invalidate() / session expiration tmout
+def session tmout value for Tomcat = 30 mins
+How to change session tmout ?
+HttpSession  i/f method
+public void setMaxInactiveInterval(int secs)
+eg : hs.setMaxInactiveInterval(300); --for 5 mins .
+OR via xml tags
+
+After either invalidate/tmout ,  What will happen ?
+1. HS object is marked for GC from server side heap
+2. jsesssionid cookies is deleted form clnt borwser.
+3. none
+4. both 
+1 
+--------------------
+Steps
+1. HS hs=request.getSession(); 
+2. Set Attribute  saving attrs under session scope
+3. How to get attribute from HS scope ?
+getAttribute(nm) -- val (Object)
+4. logout page 
+hs.invalidate(); --HS GCed.
+----------------------
+Internals of sendRedirect
+response.sendRedirect("category");
+WC  --- sends the resp to clnt
+SC 302 | location=category , cookie=jessionid=43564645|body-content =EMPTY
+clnt browser sends next request --- def method=get ---
+URL ---...../day3.1/category
++ req hdr cookie=jessionid=43564645
+
+CheckOut page 
+
+Complete case study
+In Category servlet
+
+Generate a form dynamically
+How ? By adding html content to PW
+Basic syntax
+<form action='category_books'>
+Choose a Catgory <select name='cat'>
+for (String s : categoryNms)
+<option value=s>s</option>
+</select>
+<input type="submit" value="Choose">
+<input type="submit" value="Show Cart" formaction="show_cart">
+</form>
+
+---------------------------
+Disadvantage of HttpSession based session tracking 
+It fails in the absence of cookies
+
+Solution
+
+HttpSession + URL rewriting (ref : readme)
+
+----------------
+
+Page Navigation technique -- server pull
+
+Complete Servlet Life cycle
+
+Scopes in web app programming
+
+ServletConfig vs ServletContext
+
+Web App listeners
+HttpSession Listener -- 
+Use case -- cleaning up of DAOs after session expiration.
+
+---------------------------
+Reading H.W ---differentiate between getSession() vs getSesssion(create) of HttpServletRequest.
+
+GenericServlet's overloaded init methods
+

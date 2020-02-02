@@ -1,0 +1,38 @@
+1. web.xml
+Context params -- DB config params
+
+2. DBUtils 
+static methods
+2.1 setup -- cn instance
+2.2 getConnection -- rets cn 
+2.3 cleanUp --close cn
+
+3.DBSetupListener
+3.1 ctx inited
+Get ctx params & invoke DBUtils.setup
+DB cn established.
+
+3.2 ctx destroyed
+DBUtils.cleanUp 
+DB cn closed.
+
+4. DAO layers
+4.1 Customer DAO
+login & registration
+4.2 Book DAO
+for books related actions --getting categories,getting books by category, getting book details by id.
+4.3 Add cleanUp methods in DAOs to close PSTs
+
+5.2 separate java beans
+CustomerBean & BookBean
+In CustomerBean --login & registration
+In BookBean -- all books related
+constr --emty cart
+get categories, get bks by category , add books to cart ,
+get all bk details in cart.
+IMPORTANT
+In category.jsp -- <jsp:useBean class--BookBean scope=session/> 
+
+5.3 Add cleanUp method in bean , to invoke DAO's cleanUps.
+
+

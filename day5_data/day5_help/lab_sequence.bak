@@ -1,0 +1,14 @@
+Lab sequence
+1. Import day5.1 in your workspace & revise basic JSP syntax.
+(comments & scripting elements)
+
+2. Import day5.2 to understand JSP EL syntax.
+
+3. Import day5.3 to understand JSP--JB--DAO(DBUtils) -- POJO --DB layers.
+
+4. Solve assignment
+
+
+3.Reading work
+3.1 MUST go through readme_jsp till javabeans.
+3.2 Revise servlet lifecycle , URL rewriting , session tracking & page navigation concepts.

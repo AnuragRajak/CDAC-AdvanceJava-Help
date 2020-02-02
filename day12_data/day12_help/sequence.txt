@@ -1,0 +1,161 @@
+Today's topics
+
+Revise spring beans life cycle
+Spring Container API
+Different modes of wiring(D.I)
+Hybrid approach(Enter annoatations)
+Why n What is MVC ?
+Enter Spring MVC 
+Concept , Flow n implementation
+Concept of Model n View 
+Model
+Block diagram of Spring MVC + Hibernate integration
+
+
+
+
+
+
+Hybrid appraoch(Reduced xml, reduced java code + majority annotations)
+How to enable annotation support in spring project ?
+1. Add context namespace .
+2. From XML file --remove all bean tags
+3. Add context tags
+3.1 To enable class internal annotations(eg : @PostConstruct,@PreDestroy,@AutoWired,@RequestMapping...)
+<context:annotation-config />
+
+3.2 To supply the location of the spring beans
+<context:component-scan base-package="pkg names containing spring beans"/>
+eg :<context:component-scan base-package="com.app.core,demo"/>
+What's the meaning --- SC searches under com.app.core or its sub pkg , demo or its sub packges for spring beans
+
+XML config      Annotation
+1. <bean id="abc" class="beans.TestBean"/>
+class level annotations --stereotype annotations
+@Component --ordinary spring bean
+@Controller -- req handling spring bean
+@Service ---B.L supplying bean + tx management
+@Repository --DAO layer sping bean
+@RestController -- RESTful service end point spring bean
+eg : @Component("abc")
+public class TestBean {...}
+@Component
+public class Test2Bean {...}
+
+2. scope="singleton|prototype"
+@Scope --class level annotation
+
+3. lazy-init="false|true"
+@Lazy -- class level annotation
+
+4. init-method
+@PostConstruct --method level annotation
+
+5. destroy-method 
+@PreDestroy --method level annotation
+
+6. factory-method --no support in annotations
+
+7. autowire=byType | constructor
+@AutoWired ---It can appear before a setter / paramterized constr OR directly 
+Field level injection --- no setters , no paramed constrs ,add @Autowired directly to a field
+eg : In VendorController
+@AutoWired //required=true ---mandatory
+private IVendorService service;
+
+8. autowire=byName
+eg : In VendorController bean 
+@AutoWired
+@Qualifier("abc")
+private IVendorService service;
+--------------------------
+What is MVC ?
+Model-View-Controller --Standard design pattern , meant for separation of concerns(=tasks=responsibilities)
+Model -- Java Bean (conversational state holder + B.L supplier)
+
+view layer --JSP , Thymeleaf/velocity/Angular
+Represents UI / presentation logic  (processing requests & generating response)
+
+Controller -- Typically a servlet(used in Spring MVC ) or a filter(used in Struts 2 framework)
+Manages naviagation & beans.
+
+Front Controller -- A design pattern -- which ensures ANY request coming from ANY client , for this web app , will be intercepted by a common gate keeper(or a centralized dispatcher)
+
+
+MVC flow
+
+----------------------------
+MVC(Model View Controller) --why & overview
+ 
+Implementation using servlet / JSP & JavaBean  --Shared as a readymade demo.
+
+
+Enter Spring MVC --concept & implementation steps
+0.Open J2EE perspective
+1.Create dynamic web project
+2. Add spring-all user lib in 2 places
+2.1 Under build path
+2.2 Under deployment assembly
+
+3. Configure front controller to intercept any request from any client, in web.xml.
+Copy welcome-file-list , servlet & servlet-mapping tag from the template present in --day10_eve_help/spring-hibernate/spring4-hib5-templates/web.xml
+
+4. Copy master config xml file for starting SC.
+copy spring-servlet.xml under <WEB-INF>
+
+5. Create request handling controller.
+Annotations used -- @Controller & @RequestMapping
+5.1 Test Spring MVC flow --by adding index.jsp in WebContent & welcome.jsp under <WEB-INF>/views/
+
+
+------------------------
+Pending
+
+
+5.2 Test Model & View
+---------------------
+Objective
+1.What is o.s.w.s.ModelAndView?
+ -- A class -- holder of logical view name + model (model attributes)
+What is a model attribute 
+An attribute(=key & value pair --attrName & value)
+which represents results of B.L
+Who creates it ? --Req handling controller.
+Sends it to --D.S
+D.S will save them under request scope & push it to view layer. 
+How to read them in JSP(view)?
+Using EL syntax.
+
+Constr of ModelAndView(String logicalView,String attrName,Object attrValue)
+
+
+2. Understand concept of Model
+
+Concept of Model --o.s.ui.Model (i/f)  = map of model attributes
+Type of Map -- Map<String,Object>
+
+API of Model --to create model attrs
+public Model addAttribute(String name,Object value)
+
+who cretes empty map -- SC
+
+How do u(Controller)  access it --can be passed as one of the params of request handling methods. (as Dependency)
+
+who populates it -- SC / Controller(prog)
+why ? -- to share the results available in controller layer with View.
+Model attr map is sent from controller --> F.C Front Controller  (Dispatcher Servlet) 
+F.C adds it in request scope & pushes it(sends it) to JSP (view layer)
+So this is called push MVC architecture.
+
+
+3. How to add model attr in Model map?
+public Model addAttribute(String nm,Object value);
+
+How to get Model map ? 
+Using D.I -- just tell SC that your req handling method needs a model map(how ? -- by adding it in the method arg) & SC will create Model map & inject it in your code.
+
+
+
+
+
+

@@ -1,0 +1,57 @@
+Functional Programming ( FP) is one of the type of programmin pattern that helps the process of building application by using of pure functions, avoiding shared state, mutable data, and side-effects.
+
+Functional programming vs OOP 
+
+Declarative vs Imperative :
+
+Functional programming is a declarative pattern, meaning that the program logic is expressed without explicitly describing the flow control.imperative programs spend lines of code describing the specific steps used to achieve the desired results — the flow control
+
+Declarative programs remove the flow control process, and instead spend lines of code describing the data flow.
+
+eg : Objective 
+Find out the average salary of emp from the specified dept.
+List<Emp> emps=new AL<>();
+//populate AL
+How will you do it ?
+
+Vs
+How to do it in declarative style ?
+
+
+Objective 
+Provide the functionality to operate(add/subtract/mult/div) on 2 double values.
+
+
+Use forEach , removeIf & Comparator's compare --using lambda expressions.
+---------------------
+Streams programming(java.util.stream package)
+What is a stream
+Stream = A sequence of elements supporting sequential and parallel aggregate operations. 
+
+Understand Collections vs Streams
+
+Solve 
+1. Create a stream from List of integers & display its contents via forEach method of java.util.stream.Stream 
+2. Create a stream from array of integers & display its contents via forEach method of java.util.stream.IntStream 
+3. Create stream of integers(primitive type) , using IntStream's methods(eg : range,rangeClosed) methods & display its elements
+
+4.Create IntStream having ints in the range of 10...50
+& Print its average.(specialized reduction operation)
+----------------
+4. Create int stream , skip 1st few elements & display remaining elems.
+(API skip(int n)
+5. Create int stream , & use reduce operations --sum,count,min,max 
+6. Create int stream , filter odd elements , sum it & display.
+7. Print the name of class topper with subject "JAVA"
+8. Sort Students as per the marks
+9. Create populated HashMap<Integer,String>.
+Use forEach method to display the values.
+10. Filter --Map ---Reduce
+Create int stream , filter nos > 5 , double individual number & find  avarage.(specialized reduction operation)
+11.Create int stream , double individual number & find product.(custom reduction function of IntStream reduce)
+12. Print class marks average.
+13. Collect operation
+Create list of students with subject=java , from original student list.
+Create list of student names with subject=java , from original student list.
+
+---------------------------------------

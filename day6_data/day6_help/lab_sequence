@@ -1,0 +1,56 @@
+Lab sequence
+1. Import day6.1 in your workspace & trace entire flow from JSP ---DB
+(Replace DButils to run the project)
+
+
+2.Create new dynamic web project or copy earlier one.
+Copy POJOs,DBUtils,DAOs --for Voter & Candidate.
+
+
+2. Solve Voting assignment
+2.1 Copy POJOs , Utils , DAOs from earlier servlet based project.
+
+
+2.4 Create VoterBean
+1. properties -- email,password,voter details,message(eg : invalid login/successful login) , status (voted already / not yet voted), voter dao
+2. def constr -- create voter dao instance
+3. generate setters n getters
+4. Add B.L method
+public String authenticateUser() throws Exception
+{
+   invoke DAO's method
+   if invalid login -- set mesg="invalid login" & ret "login"
+   set mesg="successful login"   
+   check the role 
+   if admin -- return "statistics"
+   check voting status --set the status property accordingly
+   if not yet voted --return "candidate_list"
+   else -- return "status" 
+}
+Add another B.L method
+public String updateVotingStatus() throws Exception
+{
+  invoke Dao's method --to update status to "voted"
+  ret message as --"You have voted successfully"
+  
+}
+2.5 Create Candidate Bean
+1. properties -- name, candidate dao ,message
+2. def constr -- create candidate dao instance
+3. generate setters n getters suitably
+4. Add B.L method
+public List<String> listCandidates() throws Exception
+{
+   invoke DAO's method
+   ret the list.
+}
+public String updateVotes() throws Exception
+{
+  invoke Dao's method --to inc votes in DB
+  ret message as --updated votes success.
+  
+}
+
+5. Create JSPs --login.jsp, candidate_list.jsp,status.jsp,stats.jsp
+
+
